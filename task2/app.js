@@ -71,8 +71,8 @@ const server = http.createServer((req, res) => {
     } else if (url === '/todoapp') {
         data = fs.readFileSync("./pages/todoApp.html");
         console.log('request to todo App')
-    } else if (url === '/main.js') {
-        data = fs.readFileSync("./pages/main.js");
+    } else if (url === '/scripts/main.js') {
+        data = fs.readFileSync("./scripts/main.js");
         console.log('request script for to do app')
     } else if (url === '/fetched') {
         data = JSON.stringify(todos);
