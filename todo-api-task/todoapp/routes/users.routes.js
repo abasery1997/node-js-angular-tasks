@@ -28,17 +28,17 @@ router.post('/signup', async(req, res) => {
     const hashedPassword = bcrypt.hashSync(password, 10)
 
     //add data to a new record in user collection
-    const user = new User({
+    const userInfo = new User({
         name,
         email,
         password: hashedPassword
     })
 
     //save changed
-    await user.save()
-
+    await userInfo.save()
+    const user = UserDto(userInfo);
     //send a message
-    res.json({ 'New USer': user })
+    res.json({ user })
 
 })
 
@@ -47,22 +47,26 @@ router.post('/signin', async(req, res) => {
     const { email, password } = req.body
 
     //get user data
-    const user = await User.findOne({ email })
+    const userInfo = await User.findOne({ email })
 
     // check if ther is a user with this email
-    if (!user) return res.status(400).json({ message: "Invalid Credentials" })
+    if (!userInfo) return res.status(400).json({ message: "Invalid Credentials" })
 
     //check if password correct
-    const validPassword = bcrypt.compareSync(password, user.password);
+    const validPassword = bcrypt.compareSync(password, userInfo.password);
     if (!validPassword) return res.status(400).json({ message: "wrong password" })
 
     //return some formatted data
-    const UserInfo = UserDto(user);
+    const user = UserDto(userInfo);
 
     //return the token that containe user data
-    const token = jwt.sign(UserInfo, jwt_KEY);
+    const token = jwt.sign(user, jwt_KEY);
 
-    res.json({ UserInfo, token });
+    res.json({
+
+        token,
+        user
+    });
 })
 
 

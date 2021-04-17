@@ -1,6 +1,6 @@
-const TodoDto = ({ title, combleted }) => ({
+const TodoDto = ({ title, completed }) => ({
     title,
-    combleted,
+    completed,
 });
 
 

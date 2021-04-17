@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light text-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active text-primary" aria-current="page" routerLink="/" routerLinkActive="active">Home</a>
+                <a *ngIf="!userExist" class="nav-link text-primary" routerLink="/login" routerLinkActive="active">login</a>
+                <a *ngIf="!userExist" class="nav-link text-primary" routerLink="/signup" routerLinkActive="active">signup</a>
+                <a *ngIf="userExist" class="nav-link btn text-primary" (click)="signout()">logout</a>
+            </div>
+        </div>
+    </div>
+</nav>

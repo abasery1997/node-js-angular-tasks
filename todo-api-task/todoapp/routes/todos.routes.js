@@ -16,7 +16,7 @@ router.get("/", async(req, res) => {
     if (!Todos) return res.status(404).json({ message: "there is no any todos" })
 
     const todos = []
-        // get only title ad status of combleted oly to vistores 
+        // get only title ad status of completed oly to vistores 
     for (let i = 0; i < Todos.length; i++) {
         todos.push(TodoDto(Todos[i]));
     }
@@ -50,20 +50,21 @@ router.get('/:userid', validateToken, async(req, res) => {
 
 //post new todo
 router.post("/", validateToken, async(req, res) => {
-    const { title, combleted } = req.body;
+    const { title } = req.body;
     // const user = await User.findOne({ name: 'abdou' })
-    const todos = new Todo({
+    const todosinfo = new Todo({
         userid: req.user.id,
         title,
-        combleted: Boolean(combleted)
+        completed: false
     });
-    await todos.save()
-    res.json({ todos })
+    await todosinfo.save()
+    todos = TodoDto(todosinfo)
+    res.json(todos)
 })
 
 //ubdate todos
 router.put('/', validateToken, async(req, res) => {
-    const { id, combleted } = req.body
+    const { id, completed } = req.body
     const todo = await Todo.findById(id);
     const todoUserid = todo.userid;
     const reqUserid = req.user.id;
@@ -71,7 +72,7 @@ router.put('/', validateToken, async(req, res) => {
     //check if it is the same user 
     if (todoUserid != reqUserid) return res.status(401).json({ message: "Not Allowed" });
 
-    todo.combleted = Boolean(combleted)
+    todo.completed = Boolean(completed)
     await todo.save()
     res.json({ todo: todo })
 })
