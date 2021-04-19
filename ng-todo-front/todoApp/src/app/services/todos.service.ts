@@ -2,38 +2,91 @@ import { UserService } from './user.service';
 import { TODO_INTERFACE } from 'src/app/types/todos-res.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { USERTODO_INTERFACE } from 'src/app/types/usertodos-res.intrface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
-  baseUrl :string = 'http://localhost:3000/todos' 
+  baseUrl: string = 'http://localhost:3000/todos'
 
- private todos :any[]= []
-  constructor(private http:HttpClient,private userService:UserService) { }
+  private todos: USERTODO_INTERFACE[] = []
+  private alloftodos: TODO_INTERFACE[] = []
+  constructor(private http: HttpClient, private userService: UserService) { }
 
-  createTodo(title:string){
-    this.http.post<TODO_INTERFACE>(`${this.baseUrl}/`,
-    {
-      title
-    },{
-      headers:{
+  setheaders() {
+    return {
+      headers: {
         authorization: this.userService.gettoken()
       }
-    }).subscribe(
-      data =>{
-        console.log(data.title)
-        console.log(data.completed )
-        this.todos.push(data)
-       // this.todos.forEach(todo=>{console.log(todo)})
-        console.log(this.todos)
+    }
+  }
 
-      },
-      err =>{
-        console.log(err)
-      }
-    )
+  get usertodos() {
+    return this.todos.slice();
+  }
+  get alltodos() {
+    return this.alloftodos.slice();
+  }
 
+
+
+  fetchAllTodos() {
+    this.http.get<{ todos: TODO_INTERFACE[] }>(this.baseUrl)
+      .subscribe(
+        data => { this.alloftodos = data.todos },
+        err => { 
+          console.log('some thing went wrong in fetchAllTodos   error: ',err)
+        }
+      )
+  }
+
+
+  //user id thtat got from localstorage using userservice 
+  fetchTodos() {
+    //check if there is a user
+    const userid = this.userService.getuser().id;
+
+    this.http.get<{ todos: USERTODO_INTERFACE[] }>(`${this.baseUrl}/${userid}`, this.setheaders())
+      .subscribe(
+        data => { this.todos = data.todos },
+        err => { 
+          console.log('some thing went wrong in fetchTodos   error: ',err)
+
+        }
+      )
+  }
+  createTodo(title: string) {
+    this.http.post<USERTODO_INTERFACE>(this.baseUrl, { title }, this.setheaders())
+      .subscribe(
+        data => {
+          // console.log(data.title)
+          // console.log(data.completed)
+          // console.log(data.userid)
+          console.log(data.id)
+          this.todos.push(data)
+
+        },
+        err => {
+          console.log('some thing went wrong in createTodo   error: ',err)
+        }
+      )
+  }
+
+
+  ubdatetodo(id: string, completed: boolean) {
+    this.http.put<USERTODO_INTERFACE>(this.baseUrl, { id, completed }, this.setheaders())
+      .subscribe(
+        data => {
+        //  console.log(data.id)
+          let todo = this.todos.find((todo) => todo.id == data.id);
+        //  console.log(todo!.id)
+          todo!.completed = data.completed;
+        },
+        err => { 
+          console.log('some thing went wrong in updating   error: ',err)
+        }
+      )
 
 
   }

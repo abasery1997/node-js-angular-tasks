@@ -1,0 +1,11 @@
+<section class="container">
+    <button *ngIf="home" type="button" class="btn btn-primary my-3" (click)='gohome()'> Go To HOme Page</button>
+    <div class="container row justify-content-between" *ngFor="let todo of todos">
+        <h3 id="title" class="mx-3 " ngDefaultControl [(ngModel)]="title">{{todo.title}}</h3>
+        <i id="title" class="mx-3 ">{{todo.completed}}</i>
+
+
+    </div>
+
+
+</section>

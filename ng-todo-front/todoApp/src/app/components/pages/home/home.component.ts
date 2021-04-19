@@ -1,3 +1,5 @@
+import { UserService } from './../../../services/user.service';
+import { TodosService } from './../../../services/todos.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService:UserService) { }
 
   ngOnInit(): void {
   }
+  get userExist(){
+    return this.userService.userExist
+  }
+
+
 
 }

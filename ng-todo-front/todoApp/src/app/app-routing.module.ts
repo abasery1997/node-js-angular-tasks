@@ -1,3 +1,4 @@
+import { AlltodosComponent } from './components/pages/alltodos/alltodos.component';
 import { TodosFormComponent } from './components/pages/todos-form/todos-form.component';
 import { NotfoundComponent } from './components/pages/notfound/notfound.component';
 import { LoginComponent } from './components/pages/login/login.component';
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path:'form',
     component:TodosFormComponent
+
+  },
+  {
+    path:'alltodos',
+    component:AlltodosComponent
 
   },
   {

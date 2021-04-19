@@ -14,6 +14,7 @@ import { NotfoundComponent } from './components/pages/notfound/notfound.componen
 import { ActionsBarComponent } from './components/bars/actions-bar/actions-bar.component';
 import { TodosFormComponent } from './components/pages/todos-form/todos-form.component';
 import { UserTodoComponent } from './components/pages/user-todo/user-todo.component';
+import { AlltodosComponent } from './components/pages/alltodos/alltodos.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { UserTodoComponent } from './components/pages/user-todo/user-todo.compon
     ActionsBarComponent,
     TodosFormComponent,
     UserTodoComponent,
+    AlltodosComponent,
   ],
   imports: [
     BrowserModule,

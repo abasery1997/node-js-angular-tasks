@@ -9,15 +9,28 @@ import { Component, OnInit } from '@angular/core';
 export class TodosFormComponent implements OnInit {
 
   title :string=''
+  id :string=''
   constructor( private todosService:TodosService) { }
 
   ngOnInit(): void {
+    this.todosService.fetchTodos()
   }
+  
 
   Add(){
-    this.todosService.createTodo(this.title)
-    this.title = ''
+    if(this.title.trim()){
+      this.todosService.createTodo(this.title)
+      this.title = ''
+    }
+    else{
+      window.alert('write the todo title')
+    }
    //   document.getElementById('title').value = "";
 
   }
+
+  get todos(){
+    return this.todosService.usertodos
+  }
+ 
 }

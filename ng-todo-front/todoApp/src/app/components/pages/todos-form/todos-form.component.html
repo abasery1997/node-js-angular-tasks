@@ -5,7 +5,11 @@
     <div class=" d-flex justify-content-start ">
         <label for="title" class="  ">Enter New Todo</label>
         <input type="text" class="w-50 m-auto" id="title" [(ngModel)]="title">
-        <button type="submit" class="btn btn-primary " (click)="Add()"> Add New Todo</button>
+        <button type="submit" class="btn btn-primary  " (click)="Add()"> Add New Todo</button>
     </div>
-    <app-user-todo></app-user-todo>
+    <hr>
+
+    <div *ngFor="let todo of todos">
+        <app-user-todo [todo]="todo"></app-user-todo>
+    </div>
 </section>

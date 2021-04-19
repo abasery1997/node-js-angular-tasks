@@ -1,3 +1,12 @@
-<section class="container">
+<div class="container row justify-content-between">
 
-</section>
+    <h3 id="{{todo.id}}" class="mx-3 " ngDefaultControl [(ngModel)]="title">{{todo.title}}</h3>
+    <div class="row my-2">
+        <button (click)="ubdating()" [ngClass]="{
+            'btn-success':completed === true,
+            'btn-warning':completed === false
+          }" class="btn mx-1">{{completed ?" &nbsp; finished &nbsp;":"unfinished"}}
+    </button>
+        <button class="btn btn-danger mx-1" (click)="remove()">remove</button>
+    </div>
+</div>

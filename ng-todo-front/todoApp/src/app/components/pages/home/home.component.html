@@ -1,3 +1,12 @@
 <app-actions-bar></app-actions-bar>
-<app-todos-form></app-todos-form>
+
+<div *ngIf="!userExist">
+    <app-alltodos></app-alltodos>
+</div>
+<div *ngIf="userExist">
+    <app-todos-form></app-todos-form>
+
+</div>
+
+
 <p>home works!</p>
