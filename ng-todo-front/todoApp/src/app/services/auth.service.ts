@@ -24,9 +24,12 @@ login(email:string, password:string){
     },
     err =>{
       console.log(err)
+      window.alert('check your email & password ')
+      
     }
   )
 }
+loginerror  =''
 
 signup(name:string,email:string, password:string){
   this.http.post<SIGNUPRES_INTERFACE>(`${this.baseUrl}/signup`,{

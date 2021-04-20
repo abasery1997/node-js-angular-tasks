@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { TodosService } from 'src/app/services/todos.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,15 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlltodosComponent implements OnInit {
 title:string=''
-  constructor(private todosService :TodosService,private router:Router ) { }
-
+  constructor(private todosService :TodosService,private router:Router  ) { }
+  home = false
   ngOnInit(): void {
     this.todosService.fetchAllTodos()
+
+    if ( this.router.url == '/'){
+      this.home = true
+    }
+
   }
   get todos(){
   return  this.todosService.alltodos
   }
-  home =false
+  
   gohome(){
     this.router.navigateByUrl('/')
    // .then(value=>{
@@ -25,7 +30,6 @@ title:string=''
     //  this.home = value
   //  })
     //console.log(this.router.navigateByUrl('/'))
-    this.home=false
   }
 
 

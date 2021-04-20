@@ -22,6 +22,7 @@ export class TodosService {
     }
   }
 
+
   get usertodos() {
     return this.todos.slice();
   }
@@ -90,4 +91,19 @@ export class TodosService {
 
 
   }
+
+   
+  deletetodo(id:string){
+    this.http.delete<USERTODO_INTERFACE>(`${this.baseUrl}/${id}`,  this.setheaders())
+    .subscribe(
+      data =>{
+        let todo = this.todos.findIndex((todo) => todo.id == data.id);
+        this.todos.splice(todo,1)
+      },
+      err=>{
+        console.log('some thing went wrong in deletetodo   error: ',err)
+      }
+    )
+  }
+
 }

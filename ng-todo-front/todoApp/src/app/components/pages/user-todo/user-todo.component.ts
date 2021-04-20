@@ -26,7 +26,8 @@ export class UserTodoComponent implements OnInit {
     //console.log(this.todo.completed)
   }
   remove(){
-
+    this.todosService.deletetodo(this.todo.id)
+    //console.log("todo remover")
   }
 
 }

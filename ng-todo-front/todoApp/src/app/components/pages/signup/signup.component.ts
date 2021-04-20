@@ -16,10 +16,19 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
-    this.authService.signup(this.name,this.email,this.password)
-    console.log(this.name)
-    console.log(this.email)
-    console.log(this.password)
+    try{
+
+      if(this.name &&this.email&&this.password){
+        this.authService.signup(this.name.trim(),this.email.trim(),this.password)
+        
+      }else{
+        window.alert('enter your name & email & password')
+      }
+      console.log(this.name ,'you have created your email')
+    }catch(err){
+      console.log('some thing went wrong',err)
+    }
+
   }
 
 }
