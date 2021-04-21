@@ -3,5 +3,11 @@ const TodoDto = ({ title, completed }) => ({
     completed,
 });
 
+const UserTodoDto = ({ _id, userid, title, completed }) => ({
+    id: _id,
+    userid,
+    title,
+    completed
+});
 
-module.exports = { TodoDto };
+module.exports = { TodoDto, UserTodoDto };

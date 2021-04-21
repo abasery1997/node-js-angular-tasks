@@ -1,3 +1,5 @@
+import { UnautRequiredGuard } from './guards/unaut-required.guard';
+import { AutRequiredGuard } from './guards/aut-required.guard';
 import { AlltodosComponent } from './components/pages/alltodos/alltodos.component';
 import { TodosFormComponent } from './components/pages/todos-form/todos-form.component';
 import { NotfoundComponent } from './components/pages/notfound/notfound.component';
@@ -14,16 +16,21 @@ const routes: Routes = [
   },
   {
     path:'login',
-    component:LoginComponent
+    component:LoginComponent,
+    canActivate: [UnautRequiredGuard]
   },
   {
     path:'signup',
-    component:SignupComponent
+    component:SignupComponent,
+    canActivate: [UnautRequiredGuard]
+
 
   },
   {
     path:'form',
-    component:TodosFormComponent
+    component:TodosFormComponent,
+    canActivate: [AutRequiredGuard],
+
 
   },
   {

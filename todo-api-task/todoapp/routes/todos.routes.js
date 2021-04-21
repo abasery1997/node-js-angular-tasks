@@ -4,7 +4,7 @@ const router = express.Router();
 const { Todo } = require("../models/todo.model");
 //const { User } = require("../models/user.model");
 const { validateToken } = require('../middleware/validate.token.middleware')
-const { TodoDto } = require("../dto/toods.dto")
+const { TodoDto, UserTodoDto } = require("../dto/toods.dto")
 
 
 //get all todos
@@ -38,13 +38,19 @@ router.get('/:userid', validateToken, async(req, res) => {
     //check if 
     if (userid != id) return res.status(401).json({ message: "Not Allowed" });
     //get tods of this specific user
-    const todos = await Todo.find({ "userid": userid })
+    const Todos = await Todo.find({ "userid": userid })
 
-    if (!todos) return res.status(404).json({ message: "there is no any todos" })
+    if (!Todos) return res.status(404).json({ message: "there is no any todos" })
 
+    const todos = []
+        //get user todos 
+    for (let i = 0; i < Todos.length; i++) {
+        todos.push(UserTodoDto(Todos[i]));
+    }
 
+    //return user todos 
     res.json({
-        todos: todos
+        todos
     });
 })
 
@@ -58,37 +64,42 @@ router.post("/", validateToken, async(req, res) => {
         completed: false
     });
     await todosinfo.save()
-    todos = TodoDto(todosinfo)
+    todos = UserTodoDto(todosinfo)
     res.json(todos)
 })
 
 //ubdate todos
 router.put('/', validateToken, async(req, res) => {
     const { id, completed } = req.body
-    const todo = await Todo.findById(id);
-    const todoUserid = todo.userid;
+    const todoinfo = await Todo.findById(id);
+    if (!todoinfo) return res.status(404).json({ message: "there is no such a todo" })
+
+    const todoUserid = todoinfo.userid;
     const reqUserid = req.user.id;
 
     //check if it is the same user 
     if (todoUserid != reqUserid) return res.status(401).json({ message: "Not Allowed" });
-
-    todo.completed = Boolean(completed)
-    await todo.save()
-    res.json({ todo: todo })
+    //can't do it now with postman as it is sent Boolean now not as string 
+    todoinfo.completed = completed
+    await todoinfo.save()
+    todo = UserTodoDto(todoinfo)
+    res.json(todo)
 })
 
 //delete todo 
-router.delete('/', validateToken, async(req, res) => {
-    const { id } = req.body
-    const todo = await Todo.findById(id);
-    const todoUserid = todo.userid;
+router.delete('/:id', validateToken, async(req, res) => {
+    const { id } = req.params;
+    const todoinfo = await Todo.findById(id);
+    if (!todoinfo) return res.status(404).json({ message: "there is no such a todo" })
+    const todoUserid = todoinfo.userid;
     const reqUserid = req.user.id;
 
     //check if it is the same user 
     if (todoUserid != reqUserid) return res.status(401).json({ message: "Not Allowed" });
 
-    await todo.delete()
-    res.json("deleted")
+    await todoinfo.delete()
+    todo = UserTodoDto(todoinfo)
+    res.json(todo)
 
 })
 
